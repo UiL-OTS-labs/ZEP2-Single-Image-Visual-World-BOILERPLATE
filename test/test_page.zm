@@ -1,20 +1,3 @@
-/******************************************************************************\
-FILE:           test_page.zm
-AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
-MODIFIED BY:    Chris van Run (UiL OTS) <C.P.A.vanRun@uu.nl>
-ADAPTED BY:     -
-
-DESCRIPTION:
-
-Provides a page object to show to the participant during test phase trials.
-It handles presenting the stimulus and recording the participant's response.
-
-
-HISTORY:
-2012-09-21 TV   Created.
-2015-04-01 CvR  Adapted to 1.10 and cleaned
-
-\******************************************************************************/
 
 
 Page test_page
