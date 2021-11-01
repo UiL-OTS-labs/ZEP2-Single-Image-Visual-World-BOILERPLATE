@@ -51,22 +51,14 @@ requires 2.5;
 
 //standards:
 import std_windows1;
-// import std_windows1a; // use this one with the smi eyetracker.
 import std_entry_page1;
 import std_exit_page1;
-import std_pause_page;
 import std_blank_page;
-import std_etcal_page;
 import std_sound_output_device;
+import test::task;
 
-//specials:
-import texts_en;
-import eyetracker_eyelink;
-//import eyetracker_tobii;
-//import eyetracker_smi;
-//import eyetracker_smi_infant;
-import test_page;
-
+// required by the control window
+int EXPERIMENT_VERSION = 1;
 
 Experiment experiment
 {

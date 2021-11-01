@@ -1,16 +1,12 @@
 
-import defs;
 import stimuli;
-import shuffle;
 import output;
-// Choose one of the two eyetracker modules, reading usually happens with adult,
+
+// Choose one of the two eyetracker modules, reading usually happens with adults,
 // hence the non infant version is chosen.
 import eyetracker;
 // import eyetracker_infant;/
-import et_setup_page;
 import test_page;
-import question_page;
-import object_info;
 
 
 Block task

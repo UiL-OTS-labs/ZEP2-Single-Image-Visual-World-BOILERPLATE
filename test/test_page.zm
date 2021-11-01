@@ -50,14 +50,17 @@ Page test_page
 
     void handle_mouse_click(int x, int y, time time_reference)
     {
-        CanvasGadget[] regions = layout.regions_of_interests.regions;
-        int[] response_codes = layout.regions_of_interests.response_codes;
+        // CanvasGadget[] regions = layout.regions_of_interests.regions;
+        // int[] response_codes = layout.regions_of_interests.response_codes;
         int index = 0;
 
-        while(index < regions.size)
+        while(index < layout.regions_of_interest.regions.size)
         {
-            if(within_GuiItem(x,y, regions[index]))
-                response.process_hit(response_codes[index], time_reference);
+            if(within_GuiItem(x,y, layout.regions.regions_of_interest.regions[index]))
+                response.process_hit(
+                        layout.regions_of_interests.response_codes[index],
+                        time_reference
+                        );
             index++;
         }
     }
@@ -240,10 +243,9 @@ Page test_page
         }
     }
 
-    SoundChain auditory_stimulus
+    SoundPlayback auditory_stimulus
     {
         SoundFile clip {}
-        SoundPlayback playback {}
 
         time play(time t)
         {
