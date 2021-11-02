@@ -1,4 +1,4 @@
-
+import defs;
 
 Page test_page
 {
@@ -8,12 +8,13 @@ Page test_page
     {
         fill_pattern_color = TEST_PAGE_COLOR;
     }
-    
-    on_event:button_press()
-    {
-        if(SELECT_ITEMS_BY_MOUSE) {}
-            handle_mouse_click(input_pointer_x, input_pointer_y, event_time);
-    }
+
+// Remove, because no one uses it??
+//    on_event:button_press()
+//    {
+//        if(SELECT_ITEMS_BY_MOUSE) {}
+//            handle_mouse_click(input_pointer_x, input_pointer_y, event_time);
+//    }
 
     on_event:key_press()
     { 
@@ -54,9 +55,9 @@ Page test_page
         // int[] response_codes = layout.regions_of_interests.response_codes;
         int index = 0;
 
-        while(index < layout.regions_of_interest.regions.size)
+        while(index < layout.regions_of_interests.regions.size)
         {
-            if(within_GuiItem(x,y, layout.regions.regions_of_interest.regions[index]))
+            if(within_GuiItem(x,y, layout.regions_of_interests.regions[index]))
                 response.process_hit(
                         layout.regions_of_interests.response_codes[index],
                         time_reference
@@ -251,7 +252,7 @@ Page test_page
         {
             abort();
 
-            playback.device = sound_output_device;
+            device = sound_output_device;
             clip.file = stimuli_dir() + "sounds/" + item.sound_filename;
 
             start(t);
@@ -343,7 +344,7 @@ Page test_page
 
         // Enable button-box buttons.
         control.target = this;
-        control.button_box.disable_buttons();
+        control.disable_buttons();
 
         // Enable the valid buttons to work with a three button box //
         //                                                          //
@@ -356,11 +357,11 @@ Page test_page
         // to the response object and the right button(2) will      //
         // send a 1, whereas the middle button(1) will be ignored.  //
 
-        control.button_box.enable_button(0, 0);
-        control.button_box.enable_button(2, 1);
+        control.enable_button(0, 0);
+        control.enable_button(2, 1);
         
-        if(!allow_selection_by_mouse())
-            hide_cursor();
+//        if(!allow_selection_by_mouse())
+//            hide_cursor();
     }
 
 
@@ -369,12 +370,12 @@ Page test_page
     {
         test_page_overlay.cleanup();
 
-        control.button_box.disable_buttons();
+        control.disable_buttons();
         if(control.target == this)
             control.target = null;
 
-        if(!allow_selection_by_mouse())
-            show_cursor();
+//        if(!allow_selection_by_mouse())
+//            show_cursor();
     }
 
     void quick_show_and_save_picture(
@@ -481,9 +482,10 @@ Page test_page
         response.reference_time = audstimonset;
     }
 
-    bool allow_selection_by_mouse()
-    {
-        return SELECT_ITEMS_BY_MOUSE;
-    }
+// Remove because no one uses it.
+//    bool allow_selection_by_mouse()
+//    {
+//        return SELECT_ITEMS_BY_MOUSE;
+//    }
 
 }
