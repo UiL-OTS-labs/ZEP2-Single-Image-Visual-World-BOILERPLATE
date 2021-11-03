@@ -55,6 +55,8 @@ import std_entry_page1;
 import std_exit_page1;
 import std_blank_page;
 import std_sound_output_device;
+import std_texts_en;
+import std_pause_page;
 import test::task;
 
 // required by the control window
@@ -77,6 +79,15 @@ Experiment experiment
         }
     }
 
+    Part welcome
+    {
+        on_event:entry()
+        {
+            entry_page.set_text(WELCOME_TEXT);
+            entry_page.action(this, 0s);
+        }
+    }
+
     Part
     {
         on_event:entry()
@@ -85,6 +96,21 @@ Experiment experiment
         }
     }
 
+    Part phase1
+    {
+        on_event:entry()
+        {
+            test::action(this);
+        }
+    }
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms, 500ms);
+        }
+    }
 
     Part thankyou
     {
@@ -95,13 +121,5 @@ Experiment experiment
             exit_page.set_text(THANK_YOU_TEXT);
             exit_page.action(this, 10s);
         }
-
-
-        on_event:exit()
-        {
-            // We're closing. Retrieve eye-movement data file recorded.
-            eyetracker.retrieve_data_files();
-        }
     }
-
 }

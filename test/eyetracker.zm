@@ -235,16 +235,16 @@ EyeTracker eyetracker
     }
 }
 
-
-CsvEyeDataWriter eye_data_writer
-{
-    init()
-    {
-        source = eyetracker;
-
-        // Where to store regular eye data files. If you don't need these
-        // files, then simply remove the eye_data_writer object and all
-        // references to it.
-        output_dir = data_dir() + script_name() + "/csv/";
-    }
-}
+// We prefer the data fromat of the manufactor
+//CsvEyeDataWriter eye_data_writer
+//{
+//    init()
+//    {
+//        source = eyetracker;
+//
+//        // Where to store regular eye data files. If you don't need these
+//        // files, then simply remove the eye_data_writer object and all
+//        // references to it.
+//        output_dir = data_dir() + script_name() + "/csv/";
+//    }
+//}

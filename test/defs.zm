@@ -3,3 +3,16 @@ bool HIGHLIGHT_REGION_OF_INTEREST = false;
 
 dur RECORD_EXTRA_AFTER_RESPONSE = 0ms;
 //dur RECORD_EXTRA_AFTER_RESPONSE = 1s;
+
+// Duration of the interval between two trials.
+dur INTERTRIAL_INTERVAL = 1000ms;
+
+// Delay from drift-check to visual stimulus.
+const dur DC_VISUAL_DELAY = 100ms;
+
+// Duration of the response interval. A value of 0ms means there is no
+// timeout. The response duration doesn't reflect how long the response is
+// active as in most experiment, but how long the response remains active
+// after the auditory stimulus stops.
+//const dur       RESPONSE_DURATION               = 5000ms;       // auto-paced
+const dur       RESPONSE_DURATION               = 0ms;          // self-paced
