@@ -2,19 +2,20 @@ import defs;
 
 Page test_page
 {
-    TestItem    item;  
+    TestItem    item;
+  
+    string[] fnames = {"", "", "", ""};
 
     init()
     {
         fill_pattern_color = TEST_PAGE_COLOR;
     }
 
-// Remove, because no one uses it??
-//    on_event:button_press()
-//    {
-//        if(SELECT_ITEMS_BY_MOUSE) {}
-//            handle_mouse_click(input_pointer_x, input_pointer_y, event_time);
-//    }
+    on_event:button_press()
+    {
+        if(SELECT_ITEMS_BY_MOUSE) {}
+            layout.canvas.handle_mouse(input_pointer_x, input_pointer_y, event_time);
+    }
 
     on_event:key_press()
     { 
@@ -49,23 +50,6 @@ Page test_page
         response.process_hit(message_arg, event_time);
     }
 
-    void handle_mouse_click(int x, int y, time time_reference)
-    {
-        // CanvasGadget[] regions = layout.regions_of_interests.regions;
-        // int[] response_codes = layout.regions_of_interests.response_codes;
-        int index = 0;
-
-        while(index < layout.regions_of_interests.regions.size)
-        {
-            if(within_GuiItem(x,y, layout.regions_of_interests.regions[index]))
-                response.process_hit(
-                        layout.regions_of_interests.response_codes[index],
-                        time_reference
-                        );
-            index++;
-        }
-    }
-
     bool within_GuiItem(int x, int y, GuiItem item)
     {
         if(x < item.x || y < item.y)
@@ -75,115 +59,64 @@ Page test_page
         return true;
     }
 
-    StackLayout layout
+    VerticalLayout layout
     {
-        int get_mid_x_coor()
-        {
-            return stimuli.x_abs+(stimuli.actual_width/2); 
-        }
 
-        int get_mid_y_coor()
-        {
-            return stimuli.y_abs+(stimuli.actual_height/2); 
-        }
-
-        VerticalLayout background
-        {
-            CanvasGadget
-            {
-                init()
-                {
-                    fill_pattern_color = color:white;
-                    size = 800, 800;
-                }
-            }
-        }
-
-        HorGridLayout stimuli
+        CanvasGadget canvas
         {
             init()
             {
-                wrap_count = 2;
-                is_visible = false;
+                fill_pattern_color = color:white;
+                is_visible = true;
+                width = CANVAS_WIDTH;
+                height = CANVAS_HEIGHT;
+                offset_x = CANVAS_HEIGHT / 2;
+                offset_y = CANVAS_WIDTH / 2;
             }
 
-            on_event:start()
-            {
-                regions_of_interests.reload();
-                int dt = int(now() - start_time);
-                eyetracker.print_to_data_file(start_time, "SYNCTIME " + string(dt));
-                eyetracker.print_to_data_file(start_time, string(dt) + " DISPLAY ON");
-            }
-
-            CanvasGadget image1canvas
+            ImageShape image1
             {
                 init()
                 {
-                    size = 400, 400;
-                    offset_x = floor(width / 2);
-                    offset_y = floor(height / 2);
-                }
+                    offset_x = -CANVAS_WIDTH/2;
+                    offset_y = -CANVAS_WIDTH/2;
 
-                ImageShape image1
+                    width  = IMAGE_WIDTH;
+                    height = IMAGE_HEIGHT;
+                }
+            }
+
+            RectangleShape aoi1
+            {
+                init()
                 {
-                    init()
-                    {
-                        is_visible=true;
-                    }
+                    offset_x = -CANVAS_WIDTH/2;
+                    offset_y = -CANVAS_WIDTH/2;
+
+                    width  = IMAGE_WIDTH;
+                    height = IMAGE_HEIGHT;
+
+                    line_pattern_color = rgbi:0/0/0;
+                    line_width = 4.0;
                 }
             }
 
-            void load_all_images(string[] filenames)
+            time load_images(time t)
             {
-                load_image(image1canvas.image1, filenames[CENTER]);
+                image1.image = stimuli_dir() + "/images/" + fnames[CENTER];
+                image1.start(t);
+
+                return image1.expected_start_time;
             }
 
-            void load_image(ImageShape target_image, string filename)
+            void highlight_regions(time t)
             {
-                target_image.image = stimuli_dir() + "/images/" + filename;
-
-                target_image.x = floor(-target_image.actual_width / 2);
-                target_image.y = floor(-target_image.actual_height / 2);
-            }
-        }
-
-        FreeLayout regions_of_interests
-        {
-            CanvasGadget[..] regions;
-            int[..] response_codes;
-
-            init()
-            {
-                regions.size = 1;
-                response_codes.size = 1;
-                regions[0] = region1; response_codes[0] = 1;
+                aoi1.start(t);
             }
 
-            void highlight_regions()
+            void handle_mouse(int x, int y, time t)
             {
-                int index = 0;
-                while(index<regions.size)
-                {
-                    regions[index].border_style = BORDER_DOTTED;
-                    regions[index].border = 5;
-                    regions[index].border_color = color:red;
-                    index++;
-                }
-            }
-
-            CanvasGadget region1 {}
-
-            void reload()
-            {
-                copy_properties_from_to(stimuli.image1canvas, region1);
-            }
-
-            void copy_properties_from_to(GuiItem source, GuiItem target)
-            {
-                target.x = source.x;
-                target.y = source.y;
-                target.width = source.width;
-                target.height = source.height;
+                println("TODO: Implement handeling mouse clicks.");
             }
         }
 
@@ -191,40 +124,20 @@ Page test_page
         {
             reset();
 
-            // Prepare stimulus presentation objects.
-            string[..] filenames;
-            filenames.size = 1;
-            filenames[CENTER] = item.image_filename;
+            fnames[CENTER] = item.image_filename;
 
-            stimuli.load_all_images(filenames);
-
-            //load_image_into(stimuli_dir() + "images/" + item.image_filename, stimulus_layers.stimulus);
-            
-            regions_of_interests.start(t);
+            time expected_start = canvas.load_images(t);
 
             if(HIGHLIGHT_REGION_OF_INTEREST)
-                regions_of_interests.highlight_regions();
-
-            // Start picture stimuli.
-            stimuli.start(t);
+                canvas.highlight_regions(t);
 
             // Return stimulus onset time.
-            return stimuli.expected_start_time;
+            return expected_start;
         } 
-
-        void load_image_into(string filepath, ButtonGadget stim)
-        {
-            stim.fill_pattern_image = filepath;
-            stim.fill_pattern_offset_x = ( stim.width - image_width(filepath) ) /2;
-            stim.fill_pattern_offset_y = ( stim.height - image_height(filepath) ) /2;
-        }
 
         void reset()
         {
-            full_abort();
-
-            regions_of_interests.is_visible = false;
-            stimuli.is_visible = false;
+            canvas.full_abort();
         } 
     }
 
@@ -237,8 +150,10 @@ Page test_page
             eyetracker.target_page = test_page;
             eyetracker.target = test_page;
 
-            int x = layout.get_mid_x_coor();
-            int y = layout.get_mid_y_coor();
+            //int x = layout.get_mid_x_coor();
+            //int y = layout.get_mid_y_coor();
+            int x = 100;
+            int y = 100;
 
             eyetracker.start_drift_check(x, y);
         }
@@ -360,8 +275,8 @@ Page test_page
         control.enable_button(0, 0);
         control.enable_button(2, 1);
         
-//        if(!allow_selection_by_mouse())
-//            hide_cursor();
+        if(!SELECT_ITEMS_BY_MOUSE)
+            hide_cursor();
     }
 
 
@@ -374,8 +289,8 @@ Page test_page
         if(control.target == this)
             control.target = null;
 
-//        if(!allow_selection_by_mouse())
-//            show_cursor();
+        if(!SELECT_ITEMS_BY_MOUSE)
+            show_cursor();
     }
 
     void quick_show_and_save_picture(
@@ -411,7 +326,7 @@ Page test_page
         {
             string fn = output_directory + string(item.type) + format(item.id,3) + ".png";
 
-             if(!file_exists(output_directory))
+            if(!file_exists(output_directory))
                 create_dir_tree(output_directory);
 
             println("Flying through to generate pictures of the screen and save it as:\n\t" + fn);

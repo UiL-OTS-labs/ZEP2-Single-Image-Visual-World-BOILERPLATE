@@ -16,3 +16,13 @@ const dur DC_VISUAL_DELAY = 100ms;
 // after the auditory stimulus stops.
 //const dur       RESPONSE_DURATION               = 5000ms;       // auto-paced
 const dur       RESPONSE_DURATION               = 0ms;          // self-paced
+
+const int CANVAS_WIDTH = 800;
+const int CANVAS_HEIGHT = 800;
+
+const int IMAGE_WIDTH = 400;
+const int IMAGE_HEIGHT = 400;
+
+// If true participants can respond by pressing with the mouse on the images.
+const bool SELECT_ITEMS_BY_MOUSE = true;
+
