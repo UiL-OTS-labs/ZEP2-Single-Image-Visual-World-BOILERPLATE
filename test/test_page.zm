@@ -173,10 +173,8 @@ Page test_page
             eyetracker.target_page = test_page;
             eyetracker.target = test_page;
 
-            //int x = layout.get_mid_x_coor();
-            //int y = layout.get_mid_y_coor();
-            int x = 100;
-            int y = 100;
+            int x = layout.canvas.x_abs + CANVAS_WIDTH/2;
+            int y = layout.canvas.y_abs + CANVAS_HEIGHT/2;
 
             eyetracker.start_drift_check(x, y);
         }
