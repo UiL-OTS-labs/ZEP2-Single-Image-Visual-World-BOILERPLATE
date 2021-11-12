@@ -235,7 +235,7 @@ EyeTracker eyetracker
     }
 }
 
-// We prefer the data fromat of the manufactor
+// We prefer the data format of the manufactor
 //CsvEyeDataWriter eye_data_writer
 //{
 //    init()
