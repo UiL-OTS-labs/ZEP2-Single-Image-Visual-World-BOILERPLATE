@@ -3,7 +3,7 @@
 // the images.
 bool HIGHLIGHT_REGION_OF_INTEREST = true;
 
-dur RECORD_EXTRA_AFTER_RESPONSE = 0ms;
+dur RECORD_EXTRA_AFTER_RESPONSE = 100ms;
 //dur RECORD_EXTRA_AFTER_RESPONSE = 1s;
 
 // Duration of the interval between two trials.
