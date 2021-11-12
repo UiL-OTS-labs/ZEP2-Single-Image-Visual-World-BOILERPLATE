@@ -1,5 +1,7 @@
 
-bool HIGHLIGHT_REGION_OF_INTEREST = false;
+// Set to true to view the area's surrounding
+// the images.
+bool HIGHLIGHT_REGION_OF_INTEREST = true;
 
 dur RECORD_EXTRA_AFTER_RESPONSE = 0ms;
 //dur RECORD_EXTRA_AFTER_RESPONSE = 1s;

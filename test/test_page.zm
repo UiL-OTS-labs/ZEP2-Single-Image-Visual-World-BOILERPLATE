@@ -13,8 +13,11 @@ Page test_page
 
     on_event:button_press()
     {
-        if(SELECT_ITEMS_BY_MOUSE) {}
-            layout.canvas.handle_mouse(input_pointer_x, input_pointer_y, event_time);
+        if(SELECT_ITEMS_BY_MOUSE) {
+            int ret = layout.canvas.handle_mouse(input_pointer_x, input_pointer_y, event_time);
+            if (ret == CENTER)
+                response.process_hit(ret, event_time);
+        }
     }
 
     on_event:key_press()
@@ -70,16 +73,14 @@ Page test_page
                 is_visible = true;
                 width = CANVAS_WIDTH;
                 height = CANVAS_HEIGHT;
-                offset_x = CANVAS_HEIGHT / 2;
-                offset_y = CANVAS_WIDTH / 2;
             }
 
             ImageShape image1
             {
                 init()
                 {
-                    offset_x = -CANVAS_WIDTH/2;
-                    offset_y = -CANVAS_WIDTH/2;
+                    offset_x = IMAGE_WIDTH/2;
+                    offset_y = IMAGE_WIDTH/2;
 
                     width  = IMAGE_WIDTH;
                     height = IMAGE_HEIGHT;
@@ -90,13 +91,13 @@ Page test_page
             {
                 init()
                 {
-                    offset_x = -CANVAS_WIDTH/2;
-                    offset_y = -CANVAS_WIDTH/2;
+                    offset_x = IMAGE_WIDTH/2;
+                    offset_y = IMAGE_HEIGHT/2;
 
                     width  = IMAGE_WIDTH;
                     height = IMAGE_HEIGHT;
 
-                    line_pattern_color = rgbi:0/0/0;
+                    line_pattern_color = rgbi:50/255/0/0;
                     line_width = 4.0;
                 }
             }
@@ -114,9 +115,27 @@ Page test_page
                 aoi1.start(t);
             }
 
-            void handle_mouse(int x, int y, time t)
+            int handle_mouse(int x, int y, time t)
             {
-                println("TODO: Implement handeling mouse clicks.");
+                // x and y are relative to ImageGadget
+                int rel_x = x - x_abs;
+                int rel_y = y - y_abs;
+                int ret;
+
+                // ignore mouse presses outside of the canvas
+                if (rel_x >= IMAGE_WIDTH  / 2                   &&
+                    rel_x <  IMAGE_WIDTH  / 2 + IMAGE_WIDTH     &&
+                    rel_y >= IMAGE_HEIGHT / 2                   &&
+                    rel_y <  IMAGE_HEIGHT / 2 + IMAGE_HEIGHT
+                   ) {
+                    ret = CENTER;
+                }
+                else {
+                    ret = -1;
+                }
+
+
+                return ret;
             }
         }
 
@@ -137,7 +156,11 @@ Page test_page
 
         void reset()
         {
-            canvas.full_abort();
+            //canvas.full_abort();
+            canvas.image1.abort();
+            canvas.image1.is_visible = false;
+            canvas.aoi1.abort();
+            canvas.aoi1.is_visible = false;
         } 
     }
 

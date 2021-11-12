@@ -20,6 +20,8 @@ Block task
         // Randomize test items table.
         if (shuffle_test_items(selected_group) != OK)
             terminate;
+
+        // prepare eyetracker
         eyetracker.setup();
     }
 
@@ -54,9 +56,10 @@ Block task
     {
         on_event:entry()
         {
-            open_data_file();
+            open_data_file(0);
 
             num_cycles = test_prac_items.size;
+
             // Display progress bar
             //test_page.setup(num_cycles);
             // hide progress bar
@@ -68,6 +71,10 @@ Block task
             test_page.cleanup();
 
             eyetracker.abort();
+
+            eyetracker.stop_stream();
+
+            eyetracker.close_data_file();
         }
 
         Trial trial
@@ -77,11 +84,30 @@ Block task
             on_event:entry()
             {
                 current_item = test_prac_items[practice.cycle];
+
+                eyetracker.print_to_data_file(
+                    "trialbeg " +  string(test.cycle + 1) + " " +
+                    format(current_item.id,3) + " " +
+                    string(current_item.type)
+                    );
+                eyetracker.print_to_data_file(
+                    "plafile " + string(current_item.type) +
+                    format(current_item.id,3) + ".bmp"
+                    );
+                eyetracker.print_to_data_file("wavfile " + current_item.sound_filename); 
+
                 eyetracker.set_tracker_status_message("Practice trial " +  string(practice.cycle+1));
             }
 
             on_event:exit()
             {
+                // Add end of trial message.
+                eyetracker.print_to_data_file(
+                    "trialend " + string(test.cycle + 1) + " " +
+                    format(current_item.id,3) + " " +
+                    string(current_item.type)
+                    );
+
                 eyetracker.set_tracker_status_message("");
             }
 
@@ -151,9 +177,10 @@ Block task
     {
         on_event:entry()
         {	
-            open_data_file();
+            open_data_file(1);
 
             num_cycles = test_items[selected_group].size;
+
             // Display progress bar
             //test_page.setup(num_cycles);
             // hide progress bar
@@ -267,10 +294,9 @@ Block task
         }
     }
 
-    void open_data_file()
+    void open_data_file(int recordingnum)
     {
         int listnum = selected_group + 1;
-        int recordingnum = 1;
         string edfname = 
             format(expdb.session.id, 4) + "_" + 
             format(listnum, 2) + "_" + 
