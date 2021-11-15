@@ -58,6 +58,9 @@ import std_sound_output_device;
 import std_texts_en;
 import std_pause_page;
 
+// import support for beexybox
+import io_beexybox;
+
 // Import the exeperimental test procedure.
 import test::task;
 
