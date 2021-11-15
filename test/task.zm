@@ -12,6 +12,7 @@ import eyetracker;
 import test_page;
 
 
+// This task runst the experiment for a user.
 Block task
 {
 
@@ -310,9 +311,114 @@ Block task
     }
 }
 
+// This block generates the images, instead of actually running the experiment.
+Block task_generate
+{
+    string current_data_dir() {
+
+        string dir = "data/visworldx/img/selected_group_"+ selected_group + '/';
+
+        if( !file_exists(dir) ) {
+            create_dir_tree(dir);
+        }
+
+        return dir;
+    }
+
+    Block practice
+    {
+        on_event:entry()
+        {
+            num_cycles = test_prac_items.size;
+            // Use progress bar
+            // test_page.setup(num_cycles);
+            // Disable progressbar
+            test_page.setup(-1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+        Trial trial
+        {
+            TestItem current_item;
+
+            on_event:entry()
+            {
+                current_item = test_prac_items[practice.cycle];
+            }
+
+            SubTrial presentation
+            {
+                on_event:entry()
+                {
+                    test_page.quick_show_and_save_picture(
+                            this,
+                            current_item,
+                            reference_time,
+                            practice.cycle,
+                            current_data_dir()
+                            );
+                }
+            }
+        }
+    }
+
+    Block test
+    {
+        on_event:entry()
+        {
+            num_cycles = test_items[selected_group].size;
+            // Use progress bar
+            // test_page.setup(num_cycles);
+            // Disable progressbar
+            test_page.setup(-1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+
+        Trial trial
+        {
+            TestItem current_item;
+
+            on_event:entry()
+            {
+                current_item = test_items[selected_group][test.cycle];
+            }
+
+
+            SubTrial presentation
+            {
+                on_event:entry()
+                {
+                    test_page.quick_show_and_save_picture(
+                            this,
+                            current_item,
+                            reference_time,
+                            test.cycle,
+                            current_data_dir()
+                            );
+                }
+            }
+        }
+    }
+}
+
 void action(Part caller)
 {
     // Activate the task. When the task is done, the registered caller
     // (c.q. the main experiment object) will automatically be signalled.
     task.enter(caller);
+}
+
+void action_generate(Part caller)
+{
+    // Activate the generation of images.
+    task_generate.enter(caller);
 }

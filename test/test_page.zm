@@ -1,5 +1,8 @@
 import defs;
 
+import stimuli;
+import output;
+
 Page test_page
 {
     TestItem    item;

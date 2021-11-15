@@ -47,7 +47,7 @@ HISTORY:
  
 \******************************************************************************/
 
-//requires 2.5;
+requires 2.5;
 
 //standards:
 import std_windows1;
@@ -57,9 +57,11 @@ import std_blank_page;
 import std_sound_output_device;
 import std_texts_en;
 import std_pause_page;
+
+// Import the exeperimental test procedure.
 import test::task;
 
-// required by the control window
+// Just for the sake of keeping std_control.zm happy.
 int EXPERIMENT_VERSION = 1;
 
 Experiment experiment
