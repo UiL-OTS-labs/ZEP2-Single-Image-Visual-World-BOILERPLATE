@@ -1,5 +1,5 @@
 
-import random;
+import shuffle;
 import stimuli;
 import output;
 import instructions;
