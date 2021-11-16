@@ -3,26 +3,26 @@
 // Script to check the "random" module's item table shuffling function.
 // This version is for a two-dimensional item table (used for between-groups designs
 
-import defs;
+import test::defs;
 import std_defs;
 
-import stimuli;
-import random;
+import test::stimuli;
+import test::shuffle;
 
 start()
 {
-	if(load_stimuli() == ERROR) 
+	if(test::load_stimuli() == ERROR) 
 	{
 		println("Failed to load files, terminating.");
 		terminate;
 	}
 
 	int n;
-	while (n < test_items.size)
+	while (n < test::test_items.size)
 	{
 		println("Shuffle for test items for index/group: " + n);
-		shuffle_stimuli(n);
-		dump_test_items(n);
+        test::shuffle_stimuli(n);
+        test::dump_test_items(n);
 		n++;
 	}
 
