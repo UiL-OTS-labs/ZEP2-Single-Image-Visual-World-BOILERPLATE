@@ -117,7 +117,7 @@ int load_prac_stimuli()
     int err;
 
 //    // Load data into test_prac_items table.
-    err = test_prac_items.load(stimuli_dir() + "test_prac_items.csv", 
+    err = test_prac_items.load(stimuli_dir() + "prac_items.csv", 
         true,           // if true, file contains a header row
         1);             // number of lines to skip before header and data
     if (err) return err;

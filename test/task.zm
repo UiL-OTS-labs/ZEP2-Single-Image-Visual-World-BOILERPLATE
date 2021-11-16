@@ -316,7 +316,7 @@ Block task_generate
 {
     string current_data_dir() {
 
-        string dir = "data/visworldx/img/selected_group_"+ selected_group + '/';
+        string dir = "data/visworldx/img/" + selected_group + '/';
 
         if( !file_exists(dir) ) {
             create_dir_tree(dir);
