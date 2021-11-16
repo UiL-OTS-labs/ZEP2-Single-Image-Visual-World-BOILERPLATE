@@ -18,7 +18,8 @@ Block task
 
     on_event:entry()
     {
-        // Randomize test items table.
+        // Randomize test items table. comment these two lines out
+        // to prevent randomization of the test items.
         if (shuffle_test_items(selected_group) != OK)
             terminate;
 
