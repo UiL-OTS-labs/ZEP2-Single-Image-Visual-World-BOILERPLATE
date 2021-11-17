@@ -1,0 +1,72 @@
+
+// Test phase output table record, defining what is to be logged for
+// each trial.
+
+record TestOutput
+{
+    int         trialnum;               // trial number
+
+    int         id;                     // item id
+    ItemType    type;                   // item type (condition)
+    bool        recorded_eye_movements; // if set, record eye movements
+    bool        did_drift_check;
+    string      sound_filename;         // sound stimulus filename
+    string      image_filename;         // image stimulus filename 1
+    int         expected_response;      // which response is the correct one.
+    int         value;                  // response value: 0=False,1=True,-1=timeout
+    int         correct;                // response value: 0=incorrect,1=correct,-1=timeout
+    int         rt;                     // response time [ms]
+}
+
+
+// Appends one row of data to test phase output table.
+void test_output_append(TestOutput data)
+{
+    expdb.add_trial_data_record(namespace_name, "1", "Test results");
+
+    expdb.set_trial_data_int_field("trialnum", data.trialnum, "trial number");
+    expdb.set_trial_data_int_field("id", data.id, "item id");
+    expdb.set_trial_data_enum_field("type", string(data.type), "item type");
+    expdb.set_trial_data_bool_field(
+            "recorded_eye_movements",
+            data.recorded_eye_movements,
+            "recorded eye movements."
+            );
+    expdb.set_trial_data_bool_field(
+            "did_drift_check",
+            data.did_drift_check,
+            "did the driftcheck"
+            );
+    expdb.set_trial_data_string_field(
+            "sound_filename",
+            data.sound_filename,
+            "the name of the sound file"
+            );
+    expdb.set_trial_data_string_field(
+            "image_filename",
+            data.image_filename,
+            "the name of the image file"
+            );
+    expdb.set_trial_data_int_field(
+            "expected_response",
+            data.expected_response,
+            "the expected response"
+            );
+    expdb.set_trial_data_int_field(
+            "value",
+            data.value,
+            "The value 0=False,1=True,-1=timeout"
+            );
+    expdb.set_trial_data_int_field(
+            "correct",
+            data.correct,
+            "Whether the response was correct."
+            );
+    expdb.set_trial_data_int_field(
+            "rt",
+            data.rt,
+            "Response time in ms"
+            );
+}
+
+

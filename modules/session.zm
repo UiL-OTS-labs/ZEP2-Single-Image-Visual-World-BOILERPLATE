@@ -8,13 +8,18 @@ int setup_pre_session()
 
 
 // This function is called just after the new session has been created. So
-// the new session id is known. At this point the database is still fully
+// the new session id is known. At this point the database is fully
 // accessible.
 int setup_session()
 {
-  if(load_stimuli() == ERROR) return ERROR;
-  if(all_stimuli_items_exist()==ERROR) return ERROR;
-  if(shuffle_stimuli(selected_group) == ERROR) return ERROR;
+  if (test::load_stimuli() == ERROR)
+      return ERROR;
+  if (test::all_stimuli_items_exist() == ERROR)
+      return ERROR;
+
+  // Comment out the next two lines to prevent randomization
+  if (test::shuffle_stimuli(selected_group) == ERROR)
+      return ERROR;
 
   return OK;
 }

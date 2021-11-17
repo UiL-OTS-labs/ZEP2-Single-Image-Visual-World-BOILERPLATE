@@ -1,20 +1,3 @@
-/******************************************************************************\
-FILE:           stimuli.zm
-AUTHOR:         Theo Veenker (UiL-OTS) <T.J.G.Veenker@uu.nl>
-MODIFIED BY:    Alex Manus (UiL-OTS) <A.T.Manus@uu.nl>
-ADAPTED BY:     Hans Rutger Bosker (UiL-OTS) <H.R.Bosker@uu.nl>
-
-DESCRIPTION:
-
-Defines the formats of item table(s) and provides the actual content of
-the item table(s) i.e. stimulus information.
-
-
-HISTORY:
-2012-09-21 TV   Created.
-2012-10-02 HRB  Adapted from four-image VWP to two-image VWP.
-
-\******************************************************************************/
 
 plugin zep_file;
 
@@ -134,7 +117,7 @@ int load_prac_stimuli()
     int err;
 
 //    // Load data into test_prac_items table.
-    err = test_prac_items.load(stimuli_dir() + "test_prac_items.csv", 
+    err = test_prac_items.load(stimuli_dir() + "prac_items.csv", 
         true,           // if true, file contains a header row
         1);             // number of lines to skip before header and data
     if (err) return err;
