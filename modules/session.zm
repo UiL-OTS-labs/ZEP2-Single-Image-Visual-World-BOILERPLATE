@@ -16,6 +16,8 @@ int setup_session()
       return ERROR;
   if (test::all_stimuli_items_exist() == ERROR)
       return ERROR;
+
+  // Comment out the next two lines to prevent randomization
   if (test::shuffle_stimuli(selected_group) == ERROR)
       return ERROR;
 
