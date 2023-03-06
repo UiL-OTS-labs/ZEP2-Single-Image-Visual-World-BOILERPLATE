@@ -82,8 +82,8 @@ Page test_page
             {
                 init()
                 {
-                    offset_x = IMAGE_WIDTH/2;
-                    offset_y = IMAGE_WIDTH/2;
+                    offset_x = (CANVAS_WIDTH - IMAGE_WIDTH)/2;
+                    offset_y = (CANVAS_HEIGHT - IMAGE_HEIGHT)/2;
 
                     width  = IMAGE_WIDTH;
                     height = IMAGE_HEIGHT;
@@ -94,8 +94,8 @@ Page test_page
             {
                 init()
                 {
-                    offset_x = IMAGE_WIDTH/2;
-                    offset_y = IMAGE_HEIGHT/2;
+                    offset_x = (CANVAS_WIDTH - IMAGE_WIDTH)/2;
+                    offset_y = (CANVAS_HEIGHT - IMAGE_HEIGHT)/2;
 
                     width  = IMAGE_WIDTH;
                     height = IMAGE_HEIGHT;
@@ -125,11 +125,14 @@ Page test_page
                 int rel_y = y - y_abs;
                 int ret;
 
+                int offset_x = int(round(image1.offset_x));
+                int offset_y = int(round(image1.offset_y));
+
                 // ignore mouse presses outside of the canvas
-                if (rel_x >= IMAGE_WIDTH  / 2                   &&
-                    rel_x <  IMAGE_WIDTH  / 2 + IMAGE_WIDTH     &&
-                    rel_y >= IMAGE_HEIGHT / 2                   &&
-                    rel_y <  IMAGE_HEIGHT / 2 + IMAGE_HEIGHT
+                if (rel_x >= offset_x                &&
+                    rel_x <  offset_x + IMAGE_WIDTH  &&
+                    rel_y >= offset_y                &&
+                    rel_y <  offset_y + IMAGE_HEIGHT
                    ) {
                     ret = CENTER;
                 }
