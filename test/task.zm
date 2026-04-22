@@ -325,7 +325,7 @@ Block task
         eyetracker.add_message(EYE_DATA_SESSION, string(expdb.session.id));
         eyetracker.add_message(EYE_DATA_LIST, string(listnum));
         eyetracker.add_message(EYE_DATA_RECORDING, string(recordingnum));
-        eyetracker.add_message(EYE_DATA_TITLE, "Text Reading Experiment");
+        eyetracker.add_message(EYE_DATA_TITLE, expdb.experiment.id);
     }
 }
 
